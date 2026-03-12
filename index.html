@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="个人技术博客 / 笔记存档">
+    <title>YoungSimpleBoy 的博客</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">~/blog</a>
+            <button class="mobile-menu-btn" aria-label="菜单" id="mobileMenuBtn">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link active">文章</a></li>
+                <li><a href="#tags" class="nav-link">标签</a></li>
+                <li><a href="#about" class="nav-link">关于</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 个人资料区域 -->
+        <section class="profile" id="about">
+            <img src="avatar.png" alt="头像" class="profile-avatar" onerror="this.style.display='none'">
+            <div class="profile-info">
+                <h1 class="profile-name">YoungSimpleBoy</h1>
+                <p class="profile-bio">化学工程专业在读 / 编程爱好者</p>
+                <p class="profile-desc">在这里记录学习笔记和技术心得。</p>
+            </div>
+        </section>
+
+        <!-- 文章列表 -->
+        <section class="posts" id="posts">
+            <h2 class="section-title">全部文章</h2>
+            
+            <article class="post-item">
+                <div class="post-meta">
+                    <time datetime="2026-03-12">2026-03-12</time>
+                    <span class="post-category">技术教程</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="posts/hello-world.html">我的第一篇博客文章</a>
+                </h3>
+                <p class="post-excerpt">这是博客的第一篇文章，记录搭建这个博客的过程和一些学习心得...</p>
+                <div class="post-tags">
+                    <a href="#tags" class="tag">博客</a>
+                    <a href="#tags" class="tag">建站</a>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- 标签云 -->
+        <section class="tags-section" id="tags">
+            <h2 class="section-title">标签云</h2>
+            <div class="tags-cloud">
+                <a href="#" class="tag">博客</a>
+                <a href="#" class="tag">Python</a>
+                <a href="#" class="tag">matlab</a>
+                <a href="#" class="tag">量化计算</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/YoungSimpleBoy" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:2404716575@qq.com">E-mail</a>
+                <a href="https://space.bilibili.com/52652807">bilibili</a>
+            </div>
+            <p class="copyright">© 2026 YoungSimpleBoy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
