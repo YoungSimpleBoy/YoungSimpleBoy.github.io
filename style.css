@@ -227,8 +227,8 @@ a:hover {
 }
 
 .profile-avatar {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--border-color);
@@ -657,6 +657,26 @@ a:hover {
     color: var(--text-secondary);
 }
 
+/* 公式编号容器 - 只控制大小和位置，不添加框 */
+.katex .tag {
+    display: inline-flex;
+    align-items: center;
+    height: 2.2rem;
+    min-width: 2.2rem;
+    padding: 0;
+    margin-left: 0.5rem;
+    line-height: 1;
+    vertical-align: middle;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: normal;
+}
+
 /* 兼容 MathJax 块级公式（版本 2 和 3） */
 .mathjax-block .md-math-container {
     text-align: center;
@@ -738,4 +758,270 @@ hr {
     margin: 2rem 0;
     border: none;
     border-top: 1px solid var(--border-color);
+}
+
+/* 右下角 GIF 容器 */
+#uma-gif-container {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+    z-index: 999;
+    max-width: 256px;
+    max-height: 256px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#uma-gif-container:hover {
+    transform: scale(1.05);
+}
+
+#uma-gif-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: inherit;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    #uma-gif-container {
+        max-width: 150px;
+        max-height: 150px;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+/* 简易日期卡片 */
+.date-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.date-info {
+    display: flex;
+    gap: 1.5rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.date-info span {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.date-day {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.date-week {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.date-time {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.lunar-date {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.yi-ji {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    background-color: var(--bg-hover);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.yi-ji span.yi {
+    color: #2ecc71;
+    margin-right: 0.5rem;
+}
+
+.yi-ji span.ji {
+    color: #e74c3c;
+}
+
+/* 移动端适配 */
+@media (max-width: 600px) {
+    .date-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .date-info {
+        gap: 0.8rem;
+    }
+}
+
+/* 搜索框样式 */
+.search-box {
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+/* 搜索框清空按钮 */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-clear {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.search-clear:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-hover);
+}
+
+.search-input {
+    padding-right: 2.5rem;
+}
+
+/* 分页样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.page-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(.disabled) {
+    background-color: var(--bg-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.page-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.page-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.5rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.page-number:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.page-number.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.light .page-btn,
+.light .page-number {
+    background-color: var(--light-bg-secondary);
+    border-color: var(--light-border-color);
+    color: var(--light-text-primary);
+}
+
+.light .page-btn:hover:not(.disabled),
+.light .page-number:hover {
+    border-color: var(--light-link-color);
+    color: var(--light-link-color);
+}
+
+.light .page-number.active {
+    background-color: var(--light-link-color);
+    border-color: var(--light-link-color);
+    color: #fff;
+}
+
+.light .search-input {
+    background-color: var(--light-bg-secondary);
+    border-color: var(--light-border-color);
+}
+
+.light .search-input:focus {
+    border-color: var(--light-link-color);
+    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
 }

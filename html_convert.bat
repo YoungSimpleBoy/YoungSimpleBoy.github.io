@@ -24,19 +24,22 @@ if "%output_file%"=="" (
     goto input_output
 )
 
-:: 3. 日期
-set date=
+:: 3. 日期（使用 post_date 避免与系统变量冲突）
+set post_date=
 echo 请输入文章日期（YYYY-MM-DD，直接回车使用今天）：
-set /p date=
+set /p post_date=
+
+:: 将用户输入的日期中的斜杠替换为短横线（如果用户输入了）
+if not "%post_date%"=="" set post_date=%post_date:/=-%
 
 :: 4. 分类
 set category=
-echo 请输入文章分类（直接回车默认为“数学”）：
+echo 请输入文章分类（直接回车默认为“综合”）：
 set /p category=
 
 :: 5. 标签
 set tags=
-echo 请输入文章标签（多个标签用空格分隔，直接回车默认为“三维几何 旋转变换 镜像变换”）：
+echo 请输入文章标签（多个标签用空格分隔，直接回车默认为“笔记”）：
 set /p tags=
 
 :: 6. 摘要
@@ -48,7 +51,7 @@ echo.
 echo ---------- 参数预览 ----------
 echo 输入文件： %input_file%
 echo 输出文件： %output_file%
-echo 日期：     %date%
+echo 日期：     %post_date% （空则使用今天）
 echo 分类：     %category%
 echo 标签：     %tags%
 echo 摘要：     %excerpt%
@@ -66,14 +69,14 @@ if /i not "%confirm%"=="Y" (
 
 :: 构造命令行参数
 set args=%input_file% %output_file%
-if not "%date%"=="" set args=%args% --date %date%
+if not "%post_date%"=="" set args=%args% --date %post_date%
 if not "%category%"=="" set args=%args% --category "%category%"
 if not "%tags%"=="" set args=%args% --tags %tags%
 if not "%excerpt%"=="" set args=%args% --excerpt "%excerpt%"
 
 :: 调用 Python 脚本
 echo 正在执行转换...
-python "%~dp0convert.py" %args%
+python "%~dp0html_convert.py" %args%
 
 :: 转换完成后，询问是否打开文章和主页
 echo.

@@ -34,15 +34,18 @@ def extract_excerpt(soup, max_len=200):
 def fix_posts_structure(soup):
     """
     修复文章列表结构：将 <section class="posts"> 内的非文章元素（如 tags-section）移出到该 section 之后，
-    确保只保留 <h2 class="section-title"> 和 <article class="post-item">。
+    确保只保留 <h2 class="section-title">、<div class="search-box"> 和 <article class="post-item">。
     """
     posts_section = soup.find("section", class_="posts")
     if not posts_section:
         return
 
-    allowed_tags = ['h2', 'article']
+    allowed_tags = ['h2', 'article', 'div']
     to_move = []
     for child in list(posts_section.children):
+        # 如果 child 是 div 但 class 是 search-box，则保留
+        if child.name == 'div' and child.get('class') == ['search-box']:
+            continue
         # 如果 child 不是允许的标签且不是空白文本（换行等），就移出
         if child.name not in allowed_tags and (child.name is not None or (isinstance(child, str) and child.strip())):
             to_move.append(child)
@@ -111,7 +114,7 @@ def update_index(index_path, article_info):
     article_tag.append(tags_div)
 
     children = list(posts_section.children)
-    
+
     # 找到标题节点（<h2 class="section-title">全部文章</h2>）的索引
     title_index = None
     for i, child in enumerate(children):
@@ -119,29 +122,35 @@ def update_index(index_path, article_info):
             title_index = i
             break
 
-    if title_index is not None:
+    # 找到搜索框节点（<div class="search-box">）的索引
+    search_box_index = None
+    for i, child in enumerate(children):
+        if child.name == 'div' and child.get('class') == ['search-box']:
+            search_box_index = i
+            break
+
+    # 确定插入位置：优先使用搜索框后面，否则使用标题后面
+    insert_index = search_box_index if search_box_index is not None else title_index
+
+    if insert_index is not None:
         # 重新构建节点列表
         new_children = []
-        
-        # 1. 保留标题之前的所有节点（通常为空）
-        new_children.extend(children[:title_index])
-        
-        # 2. 添加标题节点
-        new_children.append(children[title_index])
-        
-        # 3. 添加一个换行和缩进（8个空格，可根据实际情况调整）
+
+        # 1. 保留插入位置之前的所有节点
+        new_children.extend(children[:insert_index + 1])
+
+        # 2. 添加一个换行和缩进
         new_children.append(soup.new_string("\n        "))
-        
-        # 4. 添加新文章
+
+        # 3. 添加新文章
         new_children.append(article_tag)
-        
-        # 5. 再添加一个换行和缩进，便于后续内容换行
+
+        # 4. 再添加一个换行和缩进
         new_children.append(soup.new_string("\n        "))
-        
-        # 6. 添加标题之后原有的所有节点（包括旧文章、换行等）
-        #    注意：这些节点原本就在标题后面，现在我们让新文章出现在它们之前
-        new_children.extend(children[title_index+1:])
-        
+
+        # 5. 添加插入位置之后原有的所有节点
+        new_children.extend(children[insert_index + 1:])
+
         # 清空原容器并填充新节点列表
         posts_section.clear()
         for child in new_children:
@@ -269,6 +278,16 @@ def convert(input_file, output_file, date=None, category="数学", tags=None, ex
         li.append(btn)
         nav_links.append(li)
 
+    # 给body添加id以便回到顶部功能
+    if tpl_soup.body:
+        tpl_soup.body["id"] = "top"
+
+    # 修改导航栏中的"标签"链接为"回到顶部"
+    for link in nav_links.find_all("a", class_="nav-link"):
+        if link.get("href") and "#tags" in link.get("href"):
+            link["href"] = "#top"
+            link.string = "回到顶部"
+
     # 主题切换脚本
     theme_script = tpl_soup.new_tag("script")
     theme_script.string = '''
@@ -315,8 +334,8 @@ if __name__ == "__main__":
     parser.add_argument("input", help="Input HTML file (exported from markdown)")
     parser.add_argument("output", help="Output HTML file (relative path like posts/xxx.html)")
     parser.add_argument("--date", help="Post date (YYYY-MM-DD), default today")
-    parser.add_argument("--category", default="数学", help="Article category")
-    parser.add_argument("--tags", nargs="+", default=["三维几何", "旋转变换", "镜像变换"], help="Article tags")
+    parser.add_argument("--category", default="综合", help="Article category")
+    parser.add_argument("--tags", nargs="+", default=["笔记"], help="Article tags")
     parser.add_argument("--excerpt", help="Article excerpt (auto-generated if not provided)")
     args = parser.parse_args()
 
